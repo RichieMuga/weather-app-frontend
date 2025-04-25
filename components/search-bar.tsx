@@ -34,7 +34,7 @@ export default function SearchBar({
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
 
   // Fallback to client-side search when API fails
-  const useFallbackSearch = useCallback((query: string) => {
+  const fallbackSearch = useCallback((query: string) => {
     const filteredCities = cityDatabase
       .filter(
         (city) =>
@@ -137,7 +137,7 @@ export default function SearchBar({
       fetchData().then((success) => {
         if (!success) {
           // Use fallback search if API call failed or returned invalid data
-          useFallbackSearch(searchQuery);
+          fallbackSearch(searchQuery);
         }
       });
     }, 300);
@@ -147,7 +147,7 @@ export default function SearchBar({
         clearTimeout(searchTimeout.current);
       }
     };
-  }, [searchQuery, useFallbackSearch]);
+  }, [searchQuery, fallbackSearch]);
 
   const handleCitySelect = (city: City) => {
     if (onCitySelect) {
