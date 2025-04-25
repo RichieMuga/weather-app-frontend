@@ -1,7 +1,9 @@
 import type { City, WeatherData } from "@/types/weather-types";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 export async function fetchWeatherFromApi(city: City): Promise<WeatherData> {
-  const url = `http://127.0.0.1:8000/weather?city=${encodeURIComponent(city.name)}`;
+  const url = `${BASE_URL}/weather?city=${encodeURIComponent(city.name)}`;
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8000); // 8s timeout

@@ -91,7 +91,7 @@ export default function SearchBar({
       const fetchData = async () => {
         try {
           // Use the exact API endpoint format provided
-          const url = `http://127.0.0.1:8000/cities/search?query=${encodeURIComponent(searchQuery)}`;
+          const url = `${process.env.NEXT_PUBLIC_API_URL}/cities/search?query=${encodeURIComponent(searchQuery)}`;
           console.log(`Fetching from: ${url}`);
 
           const response = await fetch(url, {
