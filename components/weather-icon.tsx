@@ -12,21 +12,6 @@ import {
   Moon,
 } from "lucide-react";
 
-type WeatherCondition =
-  | "sunny"
-  | "clear"
-  | "cloudy"
-  | "overcast"
-  | "rainy"
-  | "drizzle"
-  | "snowy"
-  | "foggy"
-  | "thunderstorm"
-  | "hail"
-  | "partly-cloudy-day"
-  | "partly-cloudy-night"
-  | "clear-night";
-
 interface WeatherIconProps {
   condition: string;
   className?: string;

@@ -71,8 +71,6 @@ export default function SearchBar({
 
   // Handle search query changes
   useEffect(() => {
-    let fallback = false; // Define fallback here
-
     if (searchTimeout.current) {
       clearTimeout(searchTimeout.current);
     }
@@ -84,7 +82,6 @@ export default function SearchBar({
     }
 
     searchTimeout.current = setTimeout(() => {
-      // Don't reference the callback function in the dependency array
       setIsLoading(true);
       setError(null);
 
@@ -123,24 +120,26 @@ export default function SearchBar({
             setShowSuggestions(true);
             setUseFallback(false);
           } else {
-            // Empty or invalid response, use fallback
+            // Empty or invalid response, trigger fallback
             console.log("Invalid or empty API response, using fallback");
-            fallback = true;
+            return false; // Indicate fallback needed
           }
         } catch (err) {
           console.error("Error fetching city suggestions:", err);
           setError("API error, using fallback data");
-          fallback = true;
+          return false; // Indicate fallback needed
         } finally {
           setIsLoading(false);
-          if (fallback) {
-            // Use the client-side filtering directly here
-            useFallbackSearch(searchQuery);
-          }
         }
+        return true; // Indicate successful API call
       };
 
-      fetchData();
+      fetchData().then((success) => {
+        if (!success) {
+          // Use fallback search if API call failed or returned invalid data
+          useFallbackSearch(searchQuery);
+        }
+      });
     }, 300);
 
     return () => {
